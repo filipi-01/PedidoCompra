@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">PedidoCompra</string>
+    <string-array name="lista_quizena">
+        <item>1ª Quinzena</item>
+        <item>2ª Quinzena</item>
+    </string-array>
+</resources>
