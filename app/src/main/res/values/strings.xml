@@ -4,4 +4,8 @@
         <item>1ª Quinzena</item>
         <item>2ª Quinzena</item>
     </string-array>
+    <string-array name="lista_conexao">
+        <item>Local</item>
+        <item>Externo</item>
+    </string-array>
 </resources>

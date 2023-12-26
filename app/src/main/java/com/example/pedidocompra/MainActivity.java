@@ -112,7 +112,9 @@ public class MainActivity extends AppCompatActivity {
                             "port integer," +
                             "db varchar(100)," +
                             "usuario varchar(100)," +
-                            "senha varchar(100));");
+                            "senha varchar(100)," +
+                            "item int," +
+                            "ativo int);");
 
             bancoDados.close();
 
@@ -281,20 +283,21 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
     public void verificaConexao(){
-        String Ip = "",Porta="",Db="",Usuario="",Senha="";
+        String Ip = "",Porta="",Db="",Usuario="",Senha="",Item="";
         try {
 
             conexao = new SQLConnection();
 
 
-                Cursor cursor = bancoDados.rawQuery("select * from conexao", null);
-                cursor.moveToFirst();
-                if (cursor.getCount() > 0) {
-                    Ip = cursor.getString(0);
-                    Porta = cursor.getString(1);
-                    Db = cursor.getString(2);
-                    Usuario = cursor.getString(3);
-                    Senha = cursor.getString(4);
+            Cursor cursor = bancoDados.rawQuery("select * from conexao where ativo = 1", null);
+            cursor.moveToFirst();
+            if (cursor.getCount() > 0) {
+                Ip = cursor.getString(0);
+                Porta = cursor.getString(1);
+                Db = cursor.getString(2);
+                Usuario = cursor.getString(3);
+                Senha = cursor.getString(4);
+                Item = cursor.getString(5);
 
                     conexao.setIp(cursor.getString(0));
                     conexao.setPort(cursor.getString(1));
@@ -304,22 +307,35 @@ public class MainActivity extends AppCompatActivity {
 
 
                 } else {
-                    String sql = "INSERT INTO conexao(ip,port,db,usuario,senha) values(?,?,?,?,?)";
-                    SQLiteStatement stmt = bancoDados.compileStatement(sql);
+                String sql = "INSERT INTO conexao(ip,port,db,usuario,senha,item,ativo) values(?,?,?,?,?,1,1)";
+                SQLiteStatement stmt = bancoDados.compileStatement(sql);
 
-                    Ip = conexao.getIp();
-                    Porta = conexao.getPort();
-                    Db = conexao.getDb();
-                    Usuario = conexao.getUn();
-                    Senha = conexao.getPassword();
+                Ip = conexao.getIp();
+                Porta = conexao.getPort();
+                Db = conexao.getDb();
+                Usuario = conexao.getUn();
+                Senha = conexao.getPassword();
+                Item = "1";
 
 
-                    stmt.bindString(1, conexao.getIp());
-                    stmt.bindString(2, conexao.getPort());
-                    stmt.bindString(3, conexao.getDb());
-                    stmt.bindString(4, conexao.getUn());
-                    stmt.bindString(5, conexao.getPassword());
-                    stmt.executeInsert();
+                stmt.bindString(1, conexao.getIp());
+                stmt.bindString(2, conexao.getPort());
+                stmt.bindString(3, conexao.getDb());
+                stmt.bindString(4, conexao.getUn());
+                stmt.bindString(5, conexao.getPassword());
+                stmt.executeInsert();
+
+                sql = "INSERT INTO conexao(ip,port,db,usuario,senha,item,ativo) values(?,?,?,?,?,2,0)";
+                stmt = bancoDados.compileStatement(sql);
+
+
+
+                stmt.bindString(1, "sys.shoemix.com.br");
+                stmt.bindString(2, "15120");
+                stmt.bindString(3, "FINANCEIRO");
+                stmt.bindString(4, "sa");
+                stmt.bindString(5, "S3rv3r");
+                stmt.executeInsert();
                 }
 
                 conn = conexao.connect();
@@ -331,16 +347,74 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
            // Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
             if (e.getMessage().equals("erro ao conectar no banco de dados:")){
-                Intent intent = new Intent(this,com.example.pedidocompra.conexao.class);
+                Intent intent = new Intent(this,conexao.class);
                 intent.putExtra("IP",Ip);
                 intent.putExtra("Porta",Porta);
                 intent.putExtra("Bd",Db);
                 intent.putExtra("Usuario",Usuario);
                 intent.putExtra("Senha",Senha);
+                intent.putExtra("item",Item);
                 startActivity(intent);
 
             }
         }
+    }
+    public void ConfiguraConexao(View view){
+        conexao = new SQLConnection();
+        String Ip = "",Porta="",Db="",Usuario="",Senha="",Item="";
+        Cursor cursor = bancoDados.rawQuery("select * from conexao where ativo = 1", null);
+        cursor.moveToFirst();
+        if (cursor.getCount() > 0) {
+            Ip = cursor.getString(0);
+            Porta = cursor.getString(1);
+            Db = cursor.getString(2);
+            Usuario = cursor.getString(3);
+            Senha = cursor.getString(4);
+            Item = cursor.getString(5);
+            //Ativo = cursor.getString(6);
+
+
+
+
+        } else {
+            String sql = "INSERT INTO conexao(ip,port,db,usuario,senha,item,ativo) values(?,?,?,?,?,1,1)";
+            SQLiteStatement stmt = bancoDados.compileStatement(sql);
+
+            Ip = conexao.getIp();
+            Porta = conexao.getPort();
+            Db = conexao.getDb();
+            Usuario = conexao.getUn();
+            Senha = conexao.getPassword();
+            Item = "1";
+
+
+            stmt.bindString(1, conexao.getIp());
+            stmt.bindString(2, conexao.getPort());
+            stmt.bindString(3, conexao.getDb());
+            stmt.bindString(4, conexao.getUn());
+            stmt.bindString(5, conexao.getPassword());
+            stmt.executeInsert();
+
+             sql = "INSERT INTO conexao(ip,port,db,usuario,senha,item,ativo) values(?,?,?,?,?,2,0)";
+             stmt = bancoDados.compileStatement(sql);
+
+
+
+            stmt.bindString(1, "sys.shoemix.com.br");
+            stmt.bindString(2, "15120");
+            stmt.bindString(3, "FINANCEIRO");
+            stmt.bindString(4, "sa");
+            stmt.bindString(5, "S3rv3r");
+            stmt.executeInsert();
+        }
+        Intent intent = new Intent(this,conexao.class);
+        intent.putExtra("IP",Ip);
+        intent.putExtra("Porta",Porta);
+        intent.putExtra("Bd",Db);
+        intent.putExtra("Usuario",Usuario);
+        intent.putExtra("Senha",Senha);
+        intent.putExtra("item",Item);
+        startActivity(intent);
     }
 
 }
