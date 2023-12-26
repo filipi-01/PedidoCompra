@@ -139,7 +139,7 @@ public class PedidosAdapter extends ArrayAdapter<Pedidos> {
 
                 AlertDialog.Builder msgBox = new AlertDialog.Builder(context);
                 msgBox.setTitle("Duplicar");
-                msgBox.setIcon(android.R.drawable.ic_menu_delete);
+                //msgBox.setIcon(android.R.attr.actionModeCopyDrawable);
                 msgBox.setMessage("Deseja Duplicar esse Pedido?");
                 msgBox.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                     @Override
