@@ -176,8 +176,8 @@ public class MainActivity extends AppCompatActivity {
                     stPedido.setString(1, cursor.getString(7));
                     stPedido.executeUpdate();
 
-                    sqlPedido = ("INSERT INTO pedido_compra_app(cod_pedido,fornecedor,data_entrega,prazo_pagto,desconto,obs,status_pedido" +
-                            ") values(?,?,?,?,?,?,?) ");
+                    sqlPedido = ("INSERT INTO pedido_compra_app(cod_pedido,fornecedor,data_entrega,prazo_pagto,desconto,obs,status_pedido," +
+                            "data_pedido) values(?,?,?,?,?,?,?,GETDATE()) ");
 
 
                     stPedido = conn.prepareStatement(sqlPedido);
@@ -193,6 +193,7 @@ public class MainActivity extends AppCompatActivity {
                     stPedido.setString(5, cursor.getString(4));
                     stPedido.setString(6, cursor.getString(5));
                     stPedido.setString(7, "NOVO");
+
 
                     stPedido.executeUpdate();
                     sqlPedido = "SELECT max(cod_pedido_tools) cod from pedido_compra_app";
