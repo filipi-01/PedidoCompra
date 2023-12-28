@@ -87,6 +87,25 @@ public class Pedido extends AppCompatActivity {
             edObs.setText(obs);
             ListarItens();
         }
+        edDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (!b) {
+                    if (!edDate.getText().toString().equals("")) {
+                        if (!edDate.getText().toString().contains("/")) {
+                            String mes = "";
+                            String ano = "";
+
+                            mes = edDate.getText().toString().substring(0, 2);
+                            ano = edDate.getText().toString().substring(2, 6);
+
+                            edDate.setText(mes+"/"+ano);
+
+                        }
+                    }
+                }
+            }
+        });
 
         bancoDados = openOrCreateDatabase("bdPedidos",MODE_PRIVATE,null);
         bancoDados.beginTransaction();

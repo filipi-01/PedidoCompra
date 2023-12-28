@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
+import android.graphics.Color;
 import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,6 +58,10 @@ public class PedidosAdapter extends ArrayAdapter<Pedidos> {
         txtCod.setText(elementos.get(position).getCodpedido());
         txtFornecedor.setText(elementos.get(position).getFornecedor());
         txtEntrega.setText(elementos.get(position).getEntrega());
+
+        if (elementos.get(position).getTransmitido().equals("1")){
+            txtFornecedor.setTextColor(Color.parseColor("#2a8a0f"));
+        }
 
         ltVertical.setOnClickListener(new View.OnClickListener() {
             @Override

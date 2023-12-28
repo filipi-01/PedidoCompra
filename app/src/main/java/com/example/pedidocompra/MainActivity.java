@@ -1,17 +1,23 @@
 package com.example.pedidocompra;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
+import android.Manifest;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -36,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private  SQLConnection conexao;
     private Connection conn;
     private String fornecedor = "";
+    private CheckBox cbTodos;
 
 
 
@@ -45,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         listPedidos = findViewById(R.id.listPedidos);
         searchView = findViewById(R.id.searchView);
+        cbTodos = findViewById(R.id.cbTodos);
         criarBanco();
         listarDados();
       //  verificaConexao();
@@ -65,8 +73,31 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        cbTodos.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                listarDados();
+            }
+        });
 
+        if (ContextCompat.checkSelfPermission(
+                getApplicationContext(), Manifest.permission.CAMERA) ==
+                PackageManager.PERMISSION_GRANTED) {
+            // You can use the API that requires the permission.
 
+        } else if (ActivityCompat.shouldShowRequestPermissionRationale(
+                this, Manifest.permission.CAMERA)) {
+            // In an educational UI, explain to the user why your app requires this
+            // permission for a specific feature to behave as expected, and what
+            // features are disabled if it's declined. In this UI, include a
+            // "cancel" or "no thanks" button that lets the user continue
+            // using your app without granting the permission.
+
+        } else {
+            // You can directly ask for the permission.
+            requestPermissions(/*getApplicationContext(),*/
+                    new String[] { Manifest.permission.CAMERA },10001);
+        }
     }
 
     @Override
@@ -131,13 +162,19 @@ public class MainActivity extends AppCompatActivity {
           try{
 
             bancoDados = openOrCreateDatabase("bdPedidos",MODE_PRIVATE,null);
-            Cursor cursor = bancoDados.rawQuery("select cod_pedido,fornecedor,data_entrega from pedido where fornecedor like ?  "+
-                    " order by cod_pedido desc",new String[]{"%"+fornecedor+"%"});
+              Cursor cursor = null;
+           if (cbTodos.isChecked()) {
+                cursor = bancoDados.rawQuery("select cod_pedido,fornecedor,data_entrega,transmitido from pedido where fornecedor like ?  " +
+                       " order by cod_pedido desc", new String[]{"%" + fornecedor + "%"});
+           }else{
+               cursor = bancoDados.rawQuery("select cod_pedido,fornecedor,data_entrega,transmitido from pedido where fornecedor like ? and transmitido = 0 " +
+                       " order by cod_pedido desc", new String[]{"%" + fornecedor + "%"});
+           }
             cursor.moveToFirst();
             Pedidos p;
             while (cursor != null){
 
-                p = new Pedidos(cursor.getString(0),cursor.getString(1),cursor.getString(2));
+                p = new Pedidos(cursor.getString(0),cursor.getString(1),cursor.getString(2),cursor.getString(3));
                 pedidos.add(p);
                 cursor.moveToNext();
             }
@@ -254,13 +291,16 @@ public class MainActivity extends AppCompatActivity {
                     stPedido.executeUpdate();
                     conn.commit();
                     Toast.makeText(this, "Pedido: " + cursor.getString(0) + " transmitido com sucesso", Toast.LENGTH_LONG).show();
+
                 }catch (Exception e){
                     conn.rollback();
                 }
                 cursor.moveToNext();
             }
+            listarDados();
         }catch(Exception e){
             e.printStackTrace();
+            listarDados();
             //Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
         }
     }
