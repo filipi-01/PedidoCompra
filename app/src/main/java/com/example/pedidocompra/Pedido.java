@@ -32,12 +32,12 @@ public class Pedido extends AppCompatActivity {
     private EditText edPrazo;
     private EditText edDesconto;
     private EditText edObs;
-
+    private EditText edLoja;
     private ListView listItem;
 
     private  long newId;
     private int editar;
-    private String codPedido,fornecedor,entrega,prazo,desconto,obs;
+    private String codPedido,fornecedor,entrega,prazo,desconto,obs,loja;
     public  ArrayAdapter adapterList;
     public static String stDesconto;
 
@@ -54,6 +54,7 @@ public class Pedido extends AppCompatActivity {
         edPrazo=(EditText) findViewById(R.id.edPrazo);
         edDesconto=(EditText) findViewById(R.id.edDesconto);
         edObs=(EditText) findViewById(R.id.edObs);
+        edLoja=findViewById(R.id.edLoja);
         listItem = findViewById(R.id.listItens);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.lista_quizena, android.R.layout.simple_spinner_item);
@@ -71,6 +72,7 @@ public class Pedido extends AppCompatActivity {
             prazo = Extras.getString("prazo");
             desconto = Extras.getString("desconto");
             obs = Extras.getString("obs");
+            loja = Extras.getString("loja");
             stDesconto = desconto;
 
             edFornecedor.setText(fornecedor);
@@ -115,7 +117,7 @@ public class Pedido extends AppCompatActivity {
 
         if (!edFornecedor.getText().toString().equals("") && !spQuinzena.getSelectedItem().toString().equals("")
         && !edDate.getText().toString().equals("") && !edPrazo.getText().toString().equals("")
-        && !edDesconto.getText().toString().equals("")){
+        && !edDesconto.getText().toString().equals("") && !edLoja.getText().toString().equals("")){
             Intent intent = new Intent(this, ItemPedido.class);
             if (editar == 1) {
 
@@ -140,7 +142,7 @@ public class Pedido extends AppCompatActivity {
         try {
             String dataEntrega;
             dataEntrega = "";
-            String sql= "INSERT INTO pedido(fornecedor,data_entrega,prazo_pagto,desconto,obs,transmitido) values(?,?,?,?,?,0)";
+            String sql= "INSERT INTO pedido(fornecedor,data_entrega,prazo_pagto,desconto,obs,transmitido) values(?,?,?,?,?,?,0)";
             SQLiteStatement stmt = bancoDados.compileStatement(sql);
 
             stmt.bindString(1,edFornecedor.getText().toString());
@@ -154,6 +156,7 @@ public class Pedido extends AppCompatActivity {
             stmt.bindString(4,edDesconto.getText().toString());
 
             stmt.bindString(5,edObs.getText().toString());
+            stmt.bindString(6,edLoja.getText().toString());
             newId= stmt.executeInsert();
             codPedido = ""+newId;
             editar = 1;
@@ -168,7 +171,7 @@ public class Pedido extends AppCompatActivity {
         try {
             String dataEntrega;
             dataEntrega = "";
-            String sql= "UPDATE pedido set fornecedor=?,data_entrega=?,prazo_pagto=?,desconto=?,obs=?,transmitido=0" +
+            String sql= "UPDATE pedido set fornecedor=?,data_entrega=?,prazo_pagto=?,desconto=?,obs=?,loja=?,transmitido=0" +
                     " where cod_pedido = ?";
             SQLiteStatement stmt = bancoDados.compileStatement(sql);
 
@@ -183,7 +186,8 @@ public class Pedido extends AppCompatActivity {
             stmt.bindString(4,edDesconto.getText().toString());
 
             stmt.bindString(5,edObs.getText().toString());
-            stmt.bindString(6,codPedido);
+            stmt.bindString(6,edLoja.getText().toString());
+            stmt.bindString(7,codPedido);
             stmt.executeUpdateDelete();
 
             editar = 1;

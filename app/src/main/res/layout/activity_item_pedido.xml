@@ -52,13 +52,129 @@
                 android:layout_gravity="center_horizontal"
                 app:srcCompat="@android:drawable/ic_menu_camera" />
 
-            <EditText
-                android:id="@+id/edMarca"
+            <LinearLayout
+                android:id="@+id/ltMarca"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Marca"
-                android:inputType="text" />
+                android:orientation="horizontal">
+
+                <SearchView
+                    android:id="@+id/scMarca"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:isScrollContainer="false"
+                    android:keepScreenOn="false"
+                    android:visibility="visible">
+
+                </SearchView>
+
+                <EditText
+                    android:id="@+id/edMarca"
+                    android:layout_width="323dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:enabled="false"
+                    android:hint="Marca"
+                    android:inputType="text"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+
+            <ListView
+                android:id="@+id/listMarca"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btnovoMarca"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Marca"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                app:icon="@android:drawable/ic_input_add"
+                app:iconTint="@color/black" />
+
+            <LinearLayout
+                android:id="@+id/ltRef"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <SearchView
+                    android:id="@+id/scRef"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+
+                <EditText
+                    android:id="@+id/edRef"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:enabled="false"
+                    android:hint="Referência"
+                    android:inputType="text"
+                    android:visibility="visible" />
+            </LinearLayout>
+
+            <ListView
+                android:id="@+id/listRef"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <Button
+                android:id="@+id/btnovoReferencia"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Referência"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                app:icon="@android:drawable/ic_input_add"
+                app:iconTint="@color/black" />
+
+            <LinearLayout
+                android:id="@+id/ltCor"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <SearchView
+                    android:id="@+id/scCor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+
+                <EditText
+                    android:id="@+id/edCor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:enabled="false"
+                    android:hint="Cor"
+                    android:inputType="text"
+                    android:visibility="visible" />
+            </LinearLayout>
+
+            <ListView
+                android:id="@+id/listCor"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <Button
+                android:id="@+id/btnovoCor"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cor"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                app:icon="@android:drawable/ic_input_add"
+                app:iconTint="@color/black" />
 
             <EditText
                 android:id="@+id/edTipo"
@@ -66,23 +182,8 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="Tipo"
-                android:inputType="text" />
-
-            <EditText
-                android:id="@+id/edRef"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Referência"
-                android:inputType="text" />
-
-            <EditText
-                android:id="@+id/edCor"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Cor"
-                android:inputType="text" />
+                android:inputType="text"
+                android:paddingStart="20dp" />
 
             <EditText
                 android:id="@+id/edCustoLiq"
@@ -91,7 +192,8 @@
                 android:ems="10"
                 android:hint="Custo Bruto"
                 android:inputType="number|numberDecimal"
-                android:numeric="decimal" />
+                android:numeric="decimal"
+                android:paddingStart="20dp" />
 
             <EditText
                 android:id="@+id/edVenda"
@@ -100,7 +202,8 @@
                 android:ems="10"
                 android:hint="Preço Venda"
                 android:inputType="number|numberDecimal"
-                android:numeric="decimal" />
+                android:numeric="decimal"
+                android:paddingStart="20dp" />
 
             <EditText
                 android:id="@+id/edQtd"
@@ -109,7 +212,8 @@
                 android:ems="10"
                 android:hint="Quantidade"
                 android:inputType="number|numberDecimal"
-                android:numeric="integer" />
+                android:numeric="integer"
+                android:paddingStart="20dp" />
 
             <EditText
                 android:id="@+id/edGrade"
@@ -117,15 +221,8 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="Grade"
-                android:inputType="text" />
-
-            <EditText
-                android:id="@+id/edLoja"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Loja"
-                android:inputType="text" />
+                android:inputType="text"
+                android:paddingStart="20dp" />
 
         </LinearLayout>
     </ScrollView>

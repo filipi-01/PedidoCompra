@@ -119,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
                     "prazo_pagto varchar(100),"+
                     "desconto varchar(100),"+
                     "obs varchar(1000)," +
+                    "loja varchar(100)," +
                     "transmitido int, " +
                     "cod_pedido_tools int);"
             );
@@ -133,7 +134,6 @@ public class MainActivity extends AppCompatActivity {
                     "preco_venda decimal(9,2),"+
                     "qtd integer,"+
                     "grade Varchar(100),"+
-                    "loja varchar(100),"+
                     "foto blob,"+
                     "cod_pedido Integer not null,"+
                     "FOREIGN KEY(cod_pedido) REFERENCES artist(cod_pedido))"
@@ -146,6 +146,12 @@ public class MainActivity extends AppCompatActivity {
                             "senha varchar(100)," +
                             "item int," +
                             "ativo int);");
+            bancoDados.execSQL("CREATE TABLE IF NOT EXISTS produto(" +
+                    "cod integer primary key autoincrement ," +
+                    "marca varchar(100)," +
+                    "ref varchar(100)," +
+                    "cor varchar(100)," +
+                    "id int);");
 
             bancoDados.close();
 
@@ -190,7 +196,37 @@ public class MainActivity extends AppCompatActivity {
         Integer codPedidoTools=0;
         try {
             verificaConexao();
-            Cursor cursor = bancoDados.rawQuery("select * from pedido where transmitido = 0 ",null);
+            Cursor cursor;
+            try {
+                cursor = bancoDados.rawQuery("select * from produto where id is null ", null);
+                cursor.moveToFirst();
+                while(cursor!=null){
+                    PreparedStatement stProduto;
+                    String sqlProduto = "SELECT max(id) id from produto_app where marca= ? and ref = ? and cor = ?  ";
+                    stProduto = conn.prepareStatement(sqlProduto);
+                    stProduto.setString(1,cursor.getString(1));
+                    stProduto.setString(2,cursor.getString(2));
+                    stProduto.setString(3,cursor.getString(3));
+                    ResultSet rs = stProduto.executeQuery();
+                    if (rs.next()) {
+                        String sqlProd = "UPDATE produto set id=? " +
+                                " where cod = ?";
+                        SQLiteStatement stmt = bancoDados.compileStatement(sqlProd);
+
+                        stmt.bindString(1, rs.getString(0));
+                        stmt.bindString(2, cursor.getString(0));
+                        stmt.executeUpdateDelete();
+                    }
+
+                    cursor.moveToNext();
+                }
+
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+
+            cursor = bancoDados.rawQuery("select * from pedido where transmitido = 0 ",null);
             cursor.moveToFirst();
             while (cursor!=null){
                 cursor.getString(0);

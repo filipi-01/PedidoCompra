@@ -77,6 +77,7 @@ public class PedidosAdapter extends ArrayAdapter<Pedidos> {
                     intent.putExtra("prazo",cursor.getString(3));
                     intent.putExtra("desconto",cursor.getString(4));
                     intent.putExtra("obs",cursor.getString(5));
+                    intent.putExtra("loja",cursor.getString(6));
                     intent.putExtra("editar",1);
                     context.startActivity(intent);
 

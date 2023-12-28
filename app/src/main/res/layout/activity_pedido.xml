@@ -88,6 +88,7 @@ android:layout_height="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="0dp"
+                    android:spinnerMode="dropdown"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/textView2" />
 
@@ -131,6 +132,20 @@ android:layout_height="match_parent"
                 android:layout_marginEnd="20dp"
                 android:ems="10"
                 android:hint="Desconto(%)"
+                android:inputType="phone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edPrazo" />
+
+            <EditText
+                android:id="@+id/edLoja"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:ems="10"
+                android:hint="Loja"
                 android:inputType="phone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
