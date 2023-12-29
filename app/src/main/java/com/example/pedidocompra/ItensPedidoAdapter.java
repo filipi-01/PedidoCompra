@@ -80,9 +80,9 @@ public class ItensPedidoAdapter extends ArrayAdapter<ItensPedido> {
                     intent.putExtra("venda",cursor.getString(7));
                     intent.putExtra("qtd",cursor.getString(8));
                     intent.putExtra("grade",cursor.getString(9));
-                    intent.putExtra("loja",cursor.getString(10));
+
                     intent.putExtra("foto",elementos.get(position).getFoto());
-                    intent.putExtra("idPedido",cursor.getString(12));
+                    intent.putExtra("idPedido",cursor.getString(11));
 
 
                     intent.putExtra("editar",1);

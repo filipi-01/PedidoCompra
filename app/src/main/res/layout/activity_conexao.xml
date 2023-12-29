@@ -83,6 +83,13 @@
                 android:layout_height="wrap_content"
                 android:onClick="salvarConexao"
                 android:text="Salvar" />
+
+            <Button
+                android:id="@+id/btSinc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="sincronizarProduto"
+                android:text="Sincronizar Produtos" />
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

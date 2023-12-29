@@ -156,7 +156,7 @@ public class PedidosAdapter extends ArrayAdapter<Pedidos> {
 
                         try {
 
-                            String sql = "INSERT INTO pedido(fornecedor,data_entrega,prazo_pagto,desconto,obs,transmitido) values(?,?,?,?,?,0)";
+                            String sql = "INSERT INTO pedido(fornecedor,data_entrega,prazo_pagto,desconto,obs,loja,transmitido) values(?,?,?,?,?,?,0)";
                             SQLiteStatement stmt = MainActivity.bancoDados.compileStatement(sql);
 
                             stmt.bindString(1, cursor.getString(1));
@@ -165,6 +165,7 @@ public class PedidosAdapter extends ArrayAdapter<Pedidos> {
                             stmt.bindString(4, cursor.getString(4));
 
                             stmt.bindString(5, cursor.getString(5));
+                            stmt.bindString(6, cursor.getString(6));
                             newId = stmt.executeInsert();
 
 
@@ -172,8 +173,8 @@ public class PedidosAdapter extends ArrayAdapter<Pedidos> {
                             cursorItem.moveToFirst();
 
                             while (cursorItem != null) {
-                                sql = ("INSERT INTO item_pedido (marca,tipo,ref,cor,custo_liq,custo,preco_venda,qtd,grade,loja," +
-                                        "foto, cod_pedido) values(?,?,?,?,?,?,?,?,?,?,?,?) ");
+                                sql = ("INSERT INTO item_pedido (marca,tipo,ref,cor,custo_liq,custo,preco_venda,qtd,grade," +
+                                        "foto, cod_pedido) values(?,?,?,?,?,?,?,?,?,?,?) ");
                                 stmt = MainActivity.bancoDados.compileStatement(sql);
                                 stmt.bindString(1, cursorItem.getString(1));
                                 stmt.bindString(2, cursorItem.getString(2));
@@ -184,14 +185,13 @@ public class PedidosAdapter extends ArrayAdapter<Pedidos> {
                                 stmt.bindString(7, cursorItem.getString(7));
                                 stmt.bindString(8, cursorItem.getString(8));
                                 stmt.bindString(9, cursorItem.getString(9));
-                                stmt.bindString(10, cursorItem.getString(10));
                                 //stmt.bindString(10,new String( getBytes(bitmap), StandardCharsets.UTF_8));
-                                if (cursorItem.getBlob(11).length > 1) {
-                                    stmt.bindBlob(11, cursorItem.getBlob(11));
+                                if (cursorItem.getBlob(10).length > 1) {
+                                    stmt.bindBlob(10, cursorItem.getBlob(10));
                                 } else {
-                                    stmt.bindString(11, "");
+                                    stmt.bindString(10, "");
                                 }
-                                stmt.bindString(12, "" + newId);
+                                stmt.bindString(11, "" + newId);
                                 stmt.executeInsert();
 
                                 cursorItem.moveToNext();
@@ -211,6 +211,7 @@ public class PedidosAdapter extends ArrayAdapter<Pedidos> {
                         intent.putExtra("prazo", cursor.getString(3));
                         intent.putExtra("desconto", cursor.getString(4));
                         intent.putExtra("obs", cursor.getString(5));
+                        intent.putExtra("loja", cursor.getString(6));
                         intent.putExtra("editar", 1);
 
 

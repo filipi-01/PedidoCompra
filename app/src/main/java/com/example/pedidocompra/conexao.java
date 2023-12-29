@@ -14,6 +14,10 @@ import android.widget.Toast;
 
 import  com.example.pedidocompra.MainActivity;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
 public class conexao extends AppCompatActivity {
 
     private EditText edIp,edPorta,edBd,edUsuario,edSenha;
@@ -126,6 +130,46 @@ public class conexao extends AppCompatActivity {
 
 
 
+    }
+    public void sincronizarProduto(View view){
+        try {
+            SQLConnection conexao = new SQLConnection();
+
+            conexao.setIp(edIp.getText().toString());
+            conexao.setPort(edPorta.getText().toString());
+            conexao.setDb(edBd.getText().toString());
+            conexao.setUn(edUsuario.getText().toString());
+            conexao.setPassword(edSenha.getText().toString());
+
+            Connection conn = conexao.connect();
+            Cursor cursor = MainActivity.bancoDados.rawQuery("select * from produto where id is null ", null);
+            cursor.moveToFirst();
+            while(cursor!=null){
+                PreparedStatement stProduto;
+                String sqlProduto = "SELECT max(id) id from produto_app where marca= ? and ref = ? and cor = ?  ";
+                stProduto = conn.prepareStatement(sqlProduto);
+                stProduto.setString(1,cursor.getString(1));
+                stProduto.setString(2,cursor.getString(2));
+                stProduto.setString(3,cursor.getString(3));
+                ResultSet rs = stProduto.executeQuery();
+                if (rs.next()) {
+                    String sqlProd = "UPDATE produto set id=? " +
+                            " where cod = ?";
+                    SQLiteStatement stmt = MainActivity.bancoDados.compileStatement(sqlProd);
+                    if  (rs.getString(1) != null) {
+                        stmt.bindString(1, rs.getString(1));
+                        stmt.bindString(2, cursor.getString(0));
+                        stmt.executeUpdateDelete();
+                    }
+                }
+
+                cursor.moveToNext();
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        Toast.makeText(this, "Sincronizado!", Toast.LENGTH_LONG).show();
     }
 
     public void salvarConexao(View view){

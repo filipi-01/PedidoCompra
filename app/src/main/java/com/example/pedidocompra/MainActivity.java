@@ -134,7 +134,8 @@ public class MainActivity extends AppCompatActivity {
                     "preco_venda decimal(9,2),"+
                     "qtd integer,"+
                     "grade Varchar(100),"+
-                    "foto blob,"+
+                    "foto blob," +
+                    "cod_produto int," +
                     "cod_pedido Integer not null,"+
                     "FOREIGN KEY(cod_pedido) REFERENCES artist(cod_pedido))"
             );
@@ -212,10 +213,11 @@ public class MainActivity extends AppCompatActivity {
                         String sqlProd = "UPDATE produto set id=? " +
                                 " where cod = ?";
                         SQLiteStatement stmt = bancoDados.compileStatement(sqlProd);
-
-                        stmt.bindString(1, rs.getString(0));
-                        stmt.bindString(2, cursor.getString(0));
-                        stmt.executeUpdateDelete();
+                        if  (rs.getString(1) != null) {
+                            stmt.bindString(1, rs.getString(1));
+                            stmt.bindString(2, cursor.getString(0));
+                            stmt.executeUpdateDelete();
+                        }
                     }
 
                     cursor.moveToNext();
@@ -276,11 +278,14 @@ public class MainActivity extends AppCompatActivity {
                         codPedidoTools = rs.getInt(1);
                     }
                     try {
-                        Cursor cursorItem = bancoDados.rawQuery("select * from item_pedido where  cod_pedido = ?", new String[]{cursor.getString(0)});
+                        Cursor cursorItem = bancoDados.rawQuery(
+                                "select i.cod_item,i.marca,i.tipo,i.ref,i.cor,i.custo_liq,i.custo,i.preco_venda,i.qtd,grade,i.foto,p.id,i.cod_pedido from item_pedido i " +
+                                " left join produto p on p.cod=i.cod_produto "+
+                                " where  cod_pedido = ?", new String[]{cursor.getString(0)});
                         cursorItem.moveToFirst();
                         while (cursorItem != null) {
-                            String sqlItem = "INSERT INTO item_pedido_compra_app(cod_item,marca,tipo,ref,cor,custo_liq,preco_venda,qtd,grade,loja," +
-                                    "foto, cod_pedido_compra,cod_pedido_tools,custo) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?) ";
+                            String sqlItem = "INSERT INTO item_pedido_compra_app(cod_item,marca,tipo,ref,cor,custo_liq,preco_venda,qtd,grade," +
+                                    "foto, cod_pedido_compra,cod_pedido_tools,custo,id_produto) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?) ";
                             PreparedStatement stItem = conn.prepareStatement(sqlItem);
 
                             stItem.setString(1, cursorItem.getString(0));
@@ -292,17 +297,17 @@ public class MainActivity extends AppCompatActivity {
                             stItem.setString(7, cursorItem.getString(7));
                             stItem.setString(8, cursorItem.getString(8));
                             stItem.setString(9, cursorItem.getString(9));
-                            stItem.setString(10, cursorItem.getString(10));
-                            if (!cursorItem.getBlob(11).toString().equals("") && cursorItem.getBlob(11) != null) {
+                            if (!cursorItem.getBlob(10).toString().equals("") && cursorItem.getBlob(10) != null) {
 
-                                stItem.setBytes(11, cursorItem.getBlob(11));
+                                stItem.setBytes(10, cursorItem.getBlob(10));
                             } else {
-                                stItem.setString(11, cursorItem.getString(11));
+                                stItem.setString(10, cursorItem.getString(10));
                             }
 
-                            stItem.setString(12, cursorItem.getString(12));
-                            stItem.setInt(13, codPedidoTools);
-                            stItem.setString(14, cursorItem.getString(6));
+                            stItem.setString(11, cursorItem.getString(12));
+                            stItem.setInt(12, codPedidoTools);
+                            stItem.setString(13, cursorItem.getString(6));
+                            stItem.setString(14, cursorItem.getString(11));
 
                             stItem.executeUpdate();
 

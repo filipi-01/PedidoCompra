@@ -75,7 +75,8 @@
                     android:ems="10"
                     android:enabled="false"
                     android:hint="Marca"
-                    android:inputType="text"
+                    android:inputType="text|textCapCharacters"
+                    android:textAllCaps="true"
                     android:visibility="visible" />
 
             </LinearLayout>
@@ -91,6 +92,7 @@
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="habilitarMarca"
                 android:text="Marca"
                 android:textAllCaps="true"
                 android:textColor="@color/black"
@@ -116,7 +118,8 @@
                     android:ems="10"
                     android:enabled="false"
                     android:hint="Referência"
-                    android:inputType="text"
+                    android:inputType="text|textCapCharacters"
+                    android:textAllCaps="true"
                     android:visibility="visible" />
             </LinearLayout>
 
@@ -130,6 +133,7 @@
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="habilitarRef"
                 android:text="Referência"
                 android:textAllCaps="true"
                 android:textColor="@color/black"
@@ -155,7 +159,8 @@
                     android:ems="10"
                     android:enabled="false"
                     android:hint="Cor"
-                    android:inputType="text"
+                    android:inputType="text|textCapCharacters"
+                    android:textAllCaps="true"
                     android:visibility="visible" />
             </LinearLayout>
 
@@ -169,6 +174,7 @@
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="habilitarCor"
                 android:text="Cor"
                 android:textAllCaps="true"
                 android:textColor="@color/black"
@@ -183,7 +189,8 @@
                 android:ems="10"
                 android:hint="Tipo"
                 android:inputType="text"
-                android:paddingStart="20dp" />
+                android:paddingStart="20dp"
+                android:textAllCaps="true" />
 
             <EditText
                 android:id="@+id/edCustoLiq"

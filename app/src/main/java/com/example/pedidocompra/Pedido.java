@@ -87,6 +87,7 @@ public class Pedido extends AppCompatActivity {
             edPrazo.setText(prazo);
             edDesconto.setText(desconto);
             edObs.setText(obs);
+            edLoja.setText(loja);
             ListarItens();
         }
         edDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -142,7 +143,7 @@ public class Pedido extends AppCompatActivity {
         try {
             String dataEntrega;
             dataEntrega = "";
-            String sql= "INSERT INTO pedido(fornecedor,data_entrega,prazo_pagto,desconto,obs,transmitido) values(?,?,?,?,?,?,0)";
+            String sql= "INSERT INTO pedido(fornecedor,data_entrega,prazo_pagto,desconto,obs,loja,transmitido) values(?,?,?,?,?,?,0)";
             SQLiteStatement stmt = bancoDados.compileStatement(sql);
 
             stmt.bindString(1,edFornecedor.getText().toString());
@@ -220,7 +221,7 @@ public class Pedido extends AppCompatActivity {
             ItensPedido i;
             while (cursor != null){
 
-                i = new ItensPedido(cursor.getString(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getBlob(11),String.format("%.2f",cursor.getFloat(6)),cursor.getString(7));
+                i = new ItensPedido(cursor.getString(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getBlob(10),String.format("%.2f",cursor.getFloat(6)),cursor.getString(7));
                 itenspedidos.add(i);
                 cursor.moveToNext();
             }

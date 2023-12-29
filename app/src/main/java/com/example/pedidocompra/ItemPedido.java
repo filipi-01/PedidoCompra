@@ -51,6 +51,7 @@ public class ItemPedido extends AppCompatActivity {
     private String idPedido,marca;
     ArrayList<String> itenslist;
     ArrayList<String> arrayitens=new ArrayList<String>();
+    private String codProduto,idProduto;
 
 
     @Override
@@ -247,6 +248,18 @@ public class ItemPedido extends AppCompatActivity {
         arrayAdapter.setNotifyOnChange(true);
 
     }
+    public void habilitarMarca(View view){
+        edMarca.setEnabled(true);
+        edMarca.requestFocus();
+    }
+    public void habilitarRef(View view){
+        edRef.setEnabled(true);
+        edRef.requestFocus();
+    }
+    public void habilitarCor(View view){
+        edCor.setEnabled(true);
+        edCor.requestFocus();
+    }
     public void SalvarItem(View view){
         try {
             if (!edMarca.getText().toString().equals("") && !edTipo.getText().toString().equals("")
@@ -266,11 +279,13 @@ public class ItemPedido extends AppCompatActivity {
                     CustoLiq = CustoLiq - ((CustoLiq * Desconto)/100);
                     Ndescontos = Ndescontos.substring(Ndescontos.indexOf('+')+1,Ndescontos.length());
                 }
+                bancoDados = Pedido.bancoDados;
+                inserirProduto();
                 if (editar != 1) {
                     //  bancoDados = openOrCreateDatabase("bdPedidos",MODE_PRIVATE,null);
-                    bancoDados = Pedido.bancoDados;
+
                     String sql = ("INSERT INTO item_pedido (marca,tipo,ref,cor,custo_liq,custo,preco_venda,qtd,grade," +
-                            "foto, cod_pedido) values(?,?,?,?,?,?,?,?,?,?,?) ");
+                            "foto,cod_produto, cod_pedido) values(?,?,?,?,?,?,?,?,?,?,?,?) ");
                     SQLiteStatement stmt = bancoDados.compileStatement(sql);
                     stmt.bindString(1, edMarca.getText().toString());
                     stmt.bindString(2, edTipo.getText().toString());
@@ -287,7 +302,8 @@ public class ItemPedido extends AppCompatActivity {
                     } else {
                         stmt.bindString(10, "");
                     }
-                    stmt.bindString(11, idPedido);
+                    stmt.bindString(11, codProduto);
+                    stmt.bindString(12, idPedido);
                     stmt.executeInsert();
                     Toast.makeText(this, "Salvo com Sucesso!",
                             Toast.LENGTH_LONG).show();
@@ -296,9 +312,9 @@ public class ItemPedido extends AppCompatActivity {
                     edMarca.requestFocus();
 
                 } else {
-                    bancoDados = Pedido.bancoDados;
+
                     String sql = ("UPDATE item_pedido set marca =?,tipo=?,ref=?,cor=?,custo_liq=?,custo=?, preco_venda=?,qtd=?,grade=?," +
-                            "foto=? where cod_item=?  ");
+                            "foto=?,cod_produto=? where cod_item=?  ");
                     SQLiteStatement stmt = bancoDados.compileStatement(sql);
                     stmt.bindString(1, edMarca.getText().toString());
                     stmt.bindString(2, edTipo.getText().toString());
@@ -316,10 +332,12 @@ public class ItemPedido extends AppCompatActivity {
                     } else {
                         stmt.bindString(10, "");
                     }
-                    stmt.bindString(11, "" + codItem);
+                    stmt.bindString(11, codProduto);
+                    stmt.bindString(12, "" + codItem);
                     stmt.executeUpdateDelete();
                     finish();
                 }
+
 
             }else{
                 Toast.makeText(this, "Preencha todos os campos",
@@ -336,6 +354,33 @@ public class ItemPedido extends AppCompatActivity {
     public void voltarItem(View view){
 
         finish();
+    }
+    public void inserirProduto(){
+        try {
+            Cursor cursor = Pedido.bancoDados.rawQuery("select * from produto where marca = ? and ref = ? and cor = ? ",
+                    new String[]{edMarca.getText().toString(),edRef.getText().toString(),edCor.getText().toString()});
+             codProduto = "";
+             idProduto="";
+            cursor.moveToFirst();
+            codProduto = cursor.getString(0);
+            idProduto = cursor.getString(4);
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        try {
+            if (codProduto.equals("")) {
+                String sql = ("INSERT INTO produto (marca,ref,cor) values(?,?,?) ");
+                SQLiteStatement stmt = bancoDados.compileStatement(sql);
+                stmt.bindString(1, edMarca.getText().toString());
+                stmt.bindString(2, edRef.getText().toString());
+                stmt.bindString(3, edCor.getText().toString());
+                codProduto = String.valueOf(stmt.executeInsert());
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
     ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
