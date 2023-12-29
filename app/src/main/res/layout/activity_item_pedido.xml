@@ -85,6 +85,7 @@
                 android:id="@+id/listMarca"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/white"
                 android:visibility="gone" />
 
             <Button
@@ -95,10 +96,10 @@
                 android:onClick="habilitarMarca"
                 android:text="Marca"
                 android:textAllCaps="true"
-                android:textColor="@color/black"
+                android:textColor="#334DE8"
                 android:textStyle="bold"
                 app:icon="@android:drawable/ic_input_add"
-                app:iconTint="@color/black" />
+                app:iconTint="#FF334DE8" />
 
             <LinearLayout
                 android:id="@+id/ltRef"
@@ -126,7 +127,8 @@
             <ListView
                 android:id="@+id/listRef"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:background="@color/white" />
 
             <Button
                 android:id="@+id/btnovoReferencia"
@@ -136,10 +138,10 @@
                 android:onClick="habilitarRef"
                 android:text="Referência"
                 android:textAllCaps="true"
-                android:textColor="@color/black"
+                android:textColor="#334DE8"
                 android:textStyle="bold"
                 app:icon="@android:drawable/ic_input_add"
-                app:iconTint="@color/black" />
+                app:iconTint="#FF334DE8" />
 
             <LinearLayout
                 android:id="@+id/ltCor"
@@ -167,7 +169,8 @@
             <ListView
                 android:id="@+id/listCor"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:background="@color/white" />
 
             <Button
                 android:id="@+id/btnovoCor"
@@ -177,10 +180,10 @@
                 android:onClick="habilitarCor"
                 android:text="Cor"
                 android:textAllCaps="true"
-                android:textColor="@color/black"
+                android:textColor="#334DE8"
                 android:textStyle="bold"
                 app:icon="@android:drawable/ic_input_add"
-                app:iconTint="@color/black" />
+                app:iconTint="#FF334DE8" />
 
             <EditText
                 android:id="@+id/edTipo"

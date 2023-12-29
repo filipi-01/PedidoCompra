@@ -7,6 +7,8 @@ import static java.security.AccessController.getContext;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.BundleCompat;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -201,8 +203,26 @@ public class Pedido extends AppCompatActivity {
         }
     }
     public void voltar(View view){
-        bancoDados.endTransaction();
-        finish();
+        AlertDialog.Builder msgBox = new AlertDialog.Builder(this);
+        msgBox.setTitle("Sair");
+        msgBox.setIcon(android.R.drawable.ic_menu_close_clear_cancel);
+        msgBox.setMessage("Deseja sair dessa tela sem salvar?");
+        msgBox.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                bancoDados.endTransaction();
+                finish();
+
+            }
+        });
+        msgBox.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        msgBox.show();
     }
     public void Salvar(View view){
         AlterarPedido();
@@ -252,8 +272,28 @@ public class Pedido extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        bancoDados.endTransaction();
-        finish();
+        //super.onBackPressed();
+        AlertDialog.Builder msgBox = new AlertDialog.Builder(this);
+        msgBox.setTitle("Sair");
+        msgBox.setIcon(android.R.drawable.ic_menu_close_clear_cancel);
+        msgBox.setMessage("Deseja sair dessa tela sem salvar?");
+        msgBox.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                bancoDados.endTransaction();
+                finish();
+
+            }
+        });
+        msgBox.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        msgBox.show();
+
+
     }
 }

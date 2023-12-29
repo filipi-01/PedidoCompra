@@ -4,6 +4,8 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -213,7 +215,33 @@ public class ItemPedido extends AppCompatActivity {
 
 
     }
-    public void listarItens(ListView listaItem,String variavel, Boolean bMarca,Boolean bRef,Boolean bCor){
+
+    @Override
+    public void onBackPressed() {
+       // super.onBackPressed();
+        AlertDialog.Builder msgBox = new AlertDialog.Builder(this);
+        msgBox.setTitle("Sair");
+        msgBox.setIcon(android.R.drawable.ic_menu_close_clear_cancel);
+        msgBox.setMessage("Deseja sair dessa tela sem salvar?");
+        msgBox.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                finish();
+
+            }
+        });
+        msgBox.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        msgBox.show();
+    }
+
+    public void listarItens(ListView listaItem, String variavel, Boolean bMarca, Boolean bRef, Boolean bCor){
         itenslist = new ArrayList<String>();
         try {
 
@@ -352,8 +380,26 @@ public class ItemPedido extends AppCompatActivity {
 
     }
     public void voltarItem(View view){
+        AlertDialog.Builder msgBox = new AlertDialog.Builder(this);
+        msgBox.setTitle("Sair");
+        msgBox.setIcon(android.R.drawable.ic_menu_close_clear_cancel);
+        msgBox.setMessage("Deseja sair dessa tela sem salvar?");
+        msgBox.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
 
-        finish();
+                finish();
+
+            }
+        });
+        msgBox.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        msgBox.show();
     }
     public void inserirProduto(){
         try {
