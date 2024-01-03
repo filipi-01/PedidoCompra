@@ -183,7 +183,7 @@ public class ItemPedido extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String s) {
 
-                listarItens(listCor,s,true,false,false);
+                listarItens(listCor,s,false,false,true);
 
                 return false;
             }
@@ -191,7 +191,7 @@ public class ItemPedido extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String s) {
 
-                listarItens(listCor,s,true,false,false);
+                listarItens(listCor,s,false,false,true);
                 if (s.equals("")){
                     listCor.setVisibility(View.GONE);
                 }
@@ -252,7 +252,7 @@ public class ItemPedido extends AppCompatActivity {
             }else if(bRef){
                 sql="select distinct ref from produto where ref like ? group by ref";
             }else if(bCor){
-                sql="select distinct marca from produto where cor like ? group by cor";
+                sql="select distinct cor from produto where cor like ? group by cor";
             }
             // ArrayList<String> itens=new ArrayList<String>();
 
