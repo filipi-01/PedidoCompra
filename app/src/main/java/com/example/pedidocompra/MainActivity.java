@@ -198,6 +198,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             verificaConexao();
             Cursor cursor;
+            Cursor cursorItem;
             try {
                 cursor = bancoDados.rawQuery("select * from produto where id is null ", null);
                 cursor.moveToFirst();
@@ -278,7 +279,7 @@ public class MainActivity extends AppCompatActivity {
                         codPedidoTools = rs.getInt(1);
                     }
                     try {
-                        Cursor cursorItem = bancoDados.rawQuery(
+                        cursorItem = bancoDados.rawQuery(
                                 "select i.cod_item,i.marca,i.tipo,i.ref,i.cor,i.custo_liq,i.custo,i.preco_venda,i.qtd,grade,i.foto,p.id,i.cod_pedido from item_pedido i " +
                                 " left join produto p on p.cod=i.cod_produto "+
                                 " where  cod_pedido = ?", new String[]{cursor.getString(0)});
@@ -326,7 +327,8 @@ public class MainActivity extends AppCompatActivity {
                     stmt.bindString(2, cursor.getString(0));
                     stmt.executeUpdateDelete();
 
-                    sqlPedido = "update pedido_compra_app set fornecedor = fornecedor where cod_pedido_tools = ?";
+                    //sqlPedido = "update pedido_compra_app set fornecedor = fornecedor where cod_pedido_tools = ?";
+                    sqlPedido = "exec insertPedido ?";
                     stPedido = conn.prepareStatement(sqlPedido);
                     stPedido.setString(1, codPedidoTools.toString());
                     stPedido.executeUpdate();
@@ -334,6 +336,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(this, "Pedido: " + cursor.getString(0) + " transmitido com sucesso", Toast.LENGTH_LONG).show();
 
                 }catch (Exception e){
+                    e.printStackTrace();
                     conn.rollback();
                 }
                 cursor.moveToNext();
