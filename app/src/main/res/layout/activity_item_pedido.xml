@@ -64,16 +64,15 @@
                     android:layout_height="wrap_content"
                     android:isScrollContainer="false"
                     android:keepScreenOn="false"
-                    android:visibility="visible">
+                    android:visibility="gone">
 
                 </SearchView>
 
                 <EditText
                     android:id="@+id/edMarca"
-                    android:layout_width="323dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:enabled="false"
                     android:hint="Marca"
                     android:inputType="text|textCapCharacters"
                     android:textAllCaps="true"
@@ -98,6 +97,7 @@
                 android:textAllCaps="true"
                 android:textColor="#334DE8"
                 android:textStyle="bold"
+                android:visibility="gone"
                 app:icon="@android:drawable/ic_input_add"
                 app:iconTint="#FF334DE8" />
 
@@ -110,14 +110,14 @@
                 <SearchView
                     android:id="@+id/scRef"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:visibility="gone" />
 
                 <EditText
                     android:id="@+id/edRef"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:enabled="false"
                     android:hint="Referência"
                     android:inputType="text|textCapCharacters"
                     android:textAllCaps="true"
@@ -140,6 +140,7 @@
                 android:textAllCaps="true"
                 android:textColor="#334DE8"
                 android:textStyle="bold"
+                android:visibility="gone"
                 app:icon="@android:drawable/ic_input_add"
                 app:iconTint="#FF334DE8" />
 
@@ -152,14 +153,14 @@
                 <SearchView
                     android:id="@+id/scCor"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:visibility="gone" />
 
                 <EditText
                     android:id="@+id/edCor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:enabled="false"
                     android:hint="Cor"
                     android:inputType="text|textCapCharacters"
                     android:textAllCaps="true"
@@ -182,6 +183,7 @@
                 android:textAllCaps="true"
                 android:textColor="#334DE8"
                 android:textStyle="bold"
+                android:visibility="gone"
                 app:icon="@android:drawable/ic_input_add"
                 app:iconTint="#FF334DE8" />
 
@@ -191,8 +193,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="Tipo"
-                android:inputType="text"
-                android:paddingStart="20dp"
+                android:inputType="text|textCapCharacters"
                 android:textAllCaps="true" />
 
             <EditText
@@ -202,8 +203,16 @@
                 android:ems="10"
                 android:hint="Custo Bruto"
                 android:inputType="number|numberDecimal"
-                android:numeric="decimal"
-                android:paddingStart="20dp" />
+                android:numeric="decimal" />
+
+            <EditText
+                android:id="@+id/edLiquido"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Custo Liquido"
+                android:inputType="number|numberDecimal"
+                android:numeric="decimal" />
 
             <EditText
                 android:id="@+id/edVenda"
@@ -212,8 +221,7 @@
                 android:ems="10"
                 android:hint="Preço Venda"
                 android:inputType="number|numberDecimal"
-                android:numeric="decimal"
-                android:paddingStart="20dp" />
+                android:numeric="decimal" />
 
             <EditText
                 android:id="@+id/edQtd"
@@ -222,8 +230,7 @@
                 android:ems="10"
                 android:hint="Quantidade"
                 android:inputType="number|numberDecimal"
-                android:numeric="integer"
-                android:paddingStart="20dp" />
+                android:numeric="integer" />
 
             <EditText
                 android:id="@+id/edGrade"
@@ -231,8 +238,12 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="Grade"
-                android:inputType="text"
-                android:paddingStart="20dp" />
+                android:inputType="text" />
+
+            <ListView
+                android:id="@+id/listGrade"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
         </LinearLayout>
     </ScrollView>

@@ -11,6 +11,8 @@ public class ItensPedido {
     private byte[] Foto;
     private String Custo;
     private String Venda;
+    private String Qtd;
+    private String Grade;
 
     public String getCodItem() {
         return codItem;
@@ -67,9 +69,23 @@ public class ItensPedido {
         Venda = venda;
     }
 
+    public String getQtd() {
+        return Qtd;
+    }
 
+    public void setQtd(String qtd) {
+        Qtd = qtd;
+    }
 
-    public ItensPedido(String codItem,String marca, String tipo, String ref, byte[] foto, String custo, String venda) {
+    public String getGrade() {
+        return Grade;
+    }
+
+    public void setGrade(String grade) {
+        Grade = grade;
+    }
+
+    public ItensPedido(String codItem, String marca, String tipo, String ref, byte[] foto, String custo, String venda,String Qtd, String Grade) {
         this.codItem = codItem;
         Marca = marca;
         Tipo = tipo;
@@ -77,6 +93,8 @@ public class ItensPedido {
         Foto = foto;
         Custo = custo;
         Venda = venda;
+        this.Qtd = Qtd;
+        this.Grade = Grade;
 
     }
 }

@@ -7,8 +7,8 @@
 
     <LinearLayout
         android:id="@+id/ltVertical"
-        android:layout_width="280dp"
-        android:layout_height="65dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:clickable="true"
         android:orientation="vertical">
 
@@ -20,7 +20,7 @@
 
             <TextView
                 android:id="@+id/textView"
-                android:layout_width="wrap_content"
+                android:layout_width="49dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Ped.:"
@@ -28,7 +28,7 @@
 
             <TextView
                 android:id="@+id/txtCodigo"
-                android:layout_width="77dp"
+                android:layout_width="78dp"
                 android:layout_height="wrap_content"
                 android:text="TextView"
                 android:textSize="16dp" />
@@ -43,11 +43,88 @@
 
             <TextView
                 android:id="@+id/txtEntrega"
-                android:layout_width="wrap_content"
+                android:layout_width="90dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="TextView"
                 android:textSize="16dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Pares:"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/txtPares"
+                android:layout_width="83dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="TextView"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="53dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Itens:"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/txtItens"
+                android:layout_width="99dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="TextView"
+                android:textSize="16dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView15"
+                android:layout_width="47dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Lj:"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/txtLoja"
+                android:layout_width="81dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="TextView"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/txtTotal"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Total:"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/txtValTotal"
+                android:layout_width="98dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="TextView"
+                android:textSize="16dp" />
+
         </LinearLayout>
 
         <TextView
@@ -60,18 +137,24 @@
 
     </LinearLayout>
 
-    <ImageButton
-        android:id="@+id/btDuplicar"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_weight="1"
-        android:src="?attr/actionModeCopyDrawable" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    <ImageButton
-        android:id="@+id/btExcluir"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_weight="1"
-        android:src="@android:drawable/ic_menu_delete" />
+        <ImageButton
+            android:id="@+id/btDuplicar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:src="?attr/actionModeCopyDrawable" />
+
+        <ImageButton
+            android:id="@+id/btExcluir"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:src="@android:drawable/ic_menu_delete" />
+    </LinearLayout>
 
 </LinearLayout>

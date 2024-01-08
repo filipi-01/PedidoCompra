@@ -14,6 +14,8 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -40,14 +42,14 @@ public class ItemPedido extends AppCompatActivity {
     private EditText edCusto;
     private EditText edVenda;
     private EditText edQtd;
-    private EditText edGrade;
+    private EditText edGrade,edLiquido;
     private Bitmap bitmap;
     private SQLiteDatabase bancoDados;
     private int codItem;
     private int editar;
     private SearchView scMarca,scRef,scCor;
     private LinearLayout ltMarca,ltRef,ltCor;
-    private ListView listMarca,listRef,listCor;
+    private ListView listMarca,listRef,listCor,listGrade;
     private String descontos;
 
     private String idPedido,marca;
@@ -82,6 +84,8 @@ public class ItemPedido extends AppCompatActivity {
         listMarca = findViewById(R.id.listMarca);
         listRef = findViewById(R.id.listRef);
         listCor = findViewById(R.id.listCor);
+        listGrade = findViewById(R.id.listGrade);
+        edLiquido = findViewById(R.id.edLiquido);
 
         idPedido = extras.getString("idPedido");
         editar = extras.getInt("editar");
@@ -92,6 +96,7 @@ public class ItemPedido extends AppCompatActivity {
             edRef.setText(extras.getString("ref"));
             edCor.setText(extras.getString("cor"));
             edCusto.setText(extras.getString("custo"));
+            edLiquido.setText(extras.getString("custoLiq"));
             edVenda.setText(extras.getString("venda"));
             edQtd.setText(extras.getString("qtd"));
             edGrade.setText(extras.getString("grade"));
@@ -110,7 +115,7 @@ public class ItemPedido extends AppCompatActivity {
 
             }
         });
-       scMarca.setOnQueryTextListener( new SearchView.OnQueryTextListener(){
+    /*   scMarca.setOnQueryTextListener( new SearchView.OnQueryTextListener(){
 
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -131,7 +136,7 @@ public class ItemPedido extends AppCompatActivity {
 
                 return false;
             }
-        });
+        });*/
        listMarca.setOnItemClickListener(new AdapterView.OnItemClickListener() {
            @Override
            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -140,11 +145,12 @@ public class ItemPedido extends AppCompatActivity {
                 scMarca.setIconified(true);
                itenslist.clear();
                listMarca.setVisibility(View.GONE);
+               edRef.requestFocus();
 
 
            }
        });
-        scRef.setOnQueryTextListener( new SearchView.OnQueryTextListener(){
+       /* scRef.setOnQueryTextListener( new SearchView.OnQueryTextListener(){
 
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -165,7 +171,7 @@ public class ItemPedido extends AppCompatActivity {
 
                 return false;
             }
-        });
+        });*/
         listRef.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -174,11 +180,12 @@ public class ItemPedido extends AppCompatActivity {
                 scRef.setIconified(true);
                 itenslist.clear();
                 listRef.setVisibility(View.GONE);
+                edCor.requestFocus();
 
 
             }
         });
-        scCor.setOnQueryTextListener( new SearchView.OnQueryTextListener(){
+        /*scCor.setOnQueryTextListener( new SearchView.OnQueryTextListener(){
 
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -199,7 +206,7 @@ public class ItemPedido extends AppCompatActivity {
 
                 return false;
             }
-        });
+        });*/
         listCor.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -208,11 +215,105 @@ public class ItemPedido extends AppCompatActivity {
                 scCor.setIconified(true);
                 itenslist.clear();
                 listCor.setVisibility(View.GONE);
+                edTipo.requestFocus();
 
 
             }
         });
+        listGrade.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                edGrade.setText(itenslist.get(i));
+                itenslist.clear();
+                listGrade.setVisibility(View.GONE);
+            }
+        });
 
+       edMarca.addTextChangedListener(new TextWatcher() {
+           @Override
+           public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+           }
+
+           @Override
+           public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+               listarItens(listMarca,charSequence.toString(),true,false,false,false);
+           }
+
+           @Override
+           public void afterTextChanged(Editable editable) {
+
+           }
+       });
+       edRef.addTextChangedListener(new TextWatcher() {
+           @Override
+           public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+           }
+
+           @Override
+           public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+               listarItens(listRef,charSequence.toString(),false,true,false,false);
+           }
+
+           @Override
+           public void afterTextChanged(Editable editable) {
+
+           }
+       });
+       edCor.addTextChangedListener(new TextWatcher() {
+           @Override
+           public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+           }
+
+           @Override
+           public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+               listarItens(listCor,charSequence.toString(),false,false,true,false);
+           }
+
+           @Override
+           public void afterTextChanged(Editable editable) {
+
+           }
+       });
+       edGrade.addTextChangedListener(new TextWatcher() {
+           @Override
+           public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+           }
+
+           @Override
+           public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+               listarItens(listGrade,charSequence.toString(),false,false,false,true);
+           }
+
+           @Override
+           public void afterTextChanged(Editable editable) {
+
+           }
+       });
+
+       edLiquido.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+           @Override
+           public void onFocusChange(View view, boolean b) {
+               if (!edCusto.getText().toString().equals("")) {
+                   Float CustoLiq = Float.parseFloat(edCusto.getText().toString());
+                   Integer Desconto = 0;
+                   String Ndescontos = "";
+                   if (!descontos.equals("")) {
+                       Ndescontos = descontos + '+';
+                   }
+
+                   while (Ndescontos.contains("+")) {
+                       Desconto = Integer.parseInt(Ndescontos.substring(0, Ndescontos.indexOf('+')));
+                       CustoLiq = CustoLiq - ((CustoLiq * Desconto) / 100);
+                       Ndescontos = Ndescontos.substring(Ndescontos.indexOf('+') + 1, Ndescontos.length());
+                   }
+                   edLiquido.setText(CustoLiq.toString());
+               }
+           }
+       });
 
     }
 
@@ -241,7 +342,7 @@ public class ItemPedido extends AppCompatActivity {
         msgBox.show();
     }
 
-    public void listarItens(ListView listaItem, String variavel, Boolean bMarca, Boolean bRef, Boolean bCor){
+    public void listarItens(ListView listaItem, String variavel, Boolean bMarca, Boolean bRef, Boolean bCor,Boolean bGrade){
         itenslist = new ArrayList<String>();
         try {
 
@@ -253,7 +354,10 @@ public class ItemPedido extends AppCompatActivity {
                 sql="select distinct ref from produto where ref like ? group by ref";
             }else if(bCor){
                 sql="select distinct cor from produto where cor like ? group by cor";
+            }else if(bGrade){
+                sql="select distinct grade from item_pedido where grade like ? group by grade";
             }
+
             // ArrayList<String> itens=new ArrayList<String>();
 
             Cursor cursor = Pedido.bancoDados.rawQuery(sql, new String[]{"%"+ variavel+"%"});
@@ -295,18 +399,7 @@ public class ItemPedido extends AppCompatActivity {
                     && !edCusto.getText().toString().equals("") && !edVenda.getText().toString().equals("")
                     && !edQtd.getText().toString().equals("") && !edGrade.getText().toString().equals("")
                     ) {
-                Float CustoLiq= Float.parseFloat(edCusto.getText().toString());
-                Integer Desconto=0;
-                String Ndescontos ="";
-                if (!descontos.equals("")) {
-                    Ndescontos = descontos + '+';
-                }
 
-                while (Ndescontos.contains("+")){
-                    Desconto =Integer.parseInt( Ndescontos.substring(0,Ndescontos.indexOf('+')));
-                    CustoLiq = CustoLiq - ((CustoLiq * Desconto)/100);
-                    Ndescontos = Ndescontos.substring(Ndescontos.indexOf('+')+1,Ndescontos.length());
-                }
                 bancoDados = Pedido.bancoDados;
                 inserirProduto();
                 if (editar != 1) {
@@ -320,7 +413,7 @@ public class ItemPedido extends AppCompatActivity {
                     stmt.bindString(3, edRef.getText().toString());
                     stmt.bindString(4, edCor.getText().toString());
                     stmt.bindString(5, edCusto.getText().toString());
-                    stmt.bindString(6, CustoLiq.toString());
+                    stmt.bindString(6, edLiquido.getText().toString());
                     stmt.bindString(7, edVenda.getText().toString());
                     stmt.bindString(8, edQtd.getText().toString());
                     stmt.bindString(9, edGrade.getText().toString());
@@ -349,7 +442,7 @@ public class ItemPedido extends AppCompatActivity {
                     stmt.bindString(3, edRef.getText().toString());
                     stmt.bindString(4, edCor.getText().toString());
                     stmt.bindString(5, edCusto.getText().toString());
-                    stmt.bindString(6, CustoLiq.toString());
+                    stmt.bindString(6, edLiquido.getText().toString());
                     stmt.bindString(7, edVenda.getText().toString());
                     stmt.bindString(8, edQtd.getText().toString());
                     stmt.bindString(9, edGrade.getText().toString());

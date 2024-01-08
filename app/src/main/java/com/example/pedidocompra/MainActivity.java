@@ -121,7 +121,8 @@ public class MainActivity extends AppCompatActivity {
                     "obs varchar(1000)," +
                     "loja varchar(100)," +
                     "transmitido int, " +
-                    "cod_pedido_tools int);"
+                    "cod_pedido_tools int," +
+                    "whats_rep varchar(100));"
             );
             bancoDados.execSQL("CREATE TABLE IF NOT EXISTS item_pedido("+
                     "cod_item integer primary key autoincrement,"+
@@ -171,17 +172,25 @@ public class MainActivity extends AppCompatActivity {
             bancoDados = openOrCreateDatabase("bdPedidos",MODE_PRIVATE,null);
               Cursor cursor = null;
            if (cbTodos.isChecked()) {
-                cursor = bancoDados.rawQuery("select cod_pedido,fornecedor,data_entrega,transmitido from pedido where fornecedor like ?  " +
-                       " order by cod_pedido desc", new String[]{"%" + fornecedor + "%"});
+                cursor = bancoDados.rawQuery("select p.cod_pedido,p.fornecedor,p.data_entrega,p.transmitido,sum(i.qtd) as pares,count(i.cod_item) as itens," +
+                        "p.loja,sum(i.custo) as custo  from pedido as p " +
+                        "left join item_pedido as i on i.cod_pedido = p.cod_pedido where p.fornecedor like ?  " +
+                        "group by p.cod_pedido,p.fornecedor,p.data_entrega,p.transmitido,p.loja" +
+                       " order by p.cod_pedido desc", new String[]{"%" + fornecedor + "%"});
            }else{
-               cursor = bancoDados.rawQuery("select cod_pedido,fornecedor,data_entrega,transmitido from pedido where fornecedor like ? and transmitido = 0 " +
-                       " order by cod_pedido desc", new String[]{"%" + fornecedor + "%"});
+               cursor = bancoDados.rawQuery("select p.cod_pedido,p.fornecedor,p.data_entrega,p.transmitido,sum(i.qtd) as pares,count(i.cod_item) as itens," +
+                       "p.loja,sum(i.custo) as custo  from pedido as p " +
+                       " left join item_pedido as i on i.cod_pedido = p.cod_pedido " +
+                       "where p.fornecedor like ? and p.transmitido = 0 " +
+                       "group by p.cod_pedido,p.fornecedor,p.data_entrega,p.transmitido,p.loja" +
+                       " order by p.cod_pedido desc", new String[]{"%" + fornecedor + "%"});
            }
             cursor.moveToFirst();
             Pedidos p;
             while (cursor != null){
 
-                p = new Pedidos(cursor.getString(0),cursor.getString(1),cursor.getString(2),cursor.getString(3));
+                p = new Pedidos(cursor.getString(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getString(5),cursor.getString(6),
+                        String.format("%.2f",cursor.getFloat(7)));
                 pedidos.add(p);
                 cursor.moveToNext();
             }
@@ -195,7 +204,9 @@ public class MainActivity extends AppCompatActivity {
     }
     public void Transmitir(View view){
         Integer codPedidoTools=0;
+        //Toast.makeText(this, "Conectando...", Toast.LENGTH_LONG).show();
         try {
+
             verificaConexao();
             Cursor cursor;
             Cursor cursorItem;
@@ -253,7 +264,7 @@ public class MainActivity extends AppCompatActivity {
                     stPedido.executeUpdate();
 
                     sqlPedido = ("INSERT INTO pedido_compra_app(cod_pedido,fornecedor,data_entrega,prazo_pagto,desconto,obs,status_pedido," +
-                            "data_pedido,loja) values(?,?,?,?,?,?,?,GETDATE(),?) ");
+                            "data_pedido,loja,whats_rep) values(?,?,?,?,?,?,?,GETDATE(),?,?) ");
 
 
                     stPedido = conn.prepareStatement(sqlPedido);
@@ -270,6 +281,7 @@ public class MainActivity extends AppCompatActivity {
                     stPedido.setString(6, cursor.getString(5));
                     stPedido.setString(7, "NOVO");
                     stPedido.setString(8, cursor.getString(6));
+                    stPedido.setString(9, cursor.getString(9));
 
                     stPedido.executeUpdate();
                     sqlPedido = "SELECT max(cod_pedido_tools) cod from pedido_compra_app";

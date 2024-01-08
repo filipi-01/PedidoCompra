@@ -54,10 +54,19 @@ public class PedidosAdapter extends ArrayAdapter<Pedidos> {
         ImageButton btExcluir = (ImageButton) rowView.findViewById(R.id.btExcluir);
         TextView txtEntrega = (TextView) rowView.findViewById(R.id.txtEntrega);
         ImageButton btDuplicar=(ImageButton) rowView.findViewById(R.id.btDuplicar);
+        TextView txtPares = (TextView) rowView.findViewById(R.id.txtPares);
+        TextView txtItens = (TextView) rowView.findViewById(R.id.txtItens);
+        TextView txtLoja = (TextView) rowView.findViewById(R.id.txtLoja);
+        TextView txtValTotal = (TextView) rowView.findViewById(R.id.txtValTotal);
 
         txtCod.setText(elementos.get(position).getCodpedido());
         txtFornecedor.setText(elementos.get(position).getFornecedor());
         txtEntrega.setText(elementos.get(position).getEntrega());
+        txtPares.setText(elementos.get(position).getPares());
+        txtItens.setText(elementos.get(position).getItens());
+        txtLoja.setText(elementos.get(position).getLoja());
+        txtValTotal.setText(elementos.get(position).getTotal());
+
 
         if (elementos.get(position).getTransmitido().equals("1")){
             txtFornecedor.setTextColor(Color.parseColor("#2a8a0f"));
@@ -79,6 +88,7 @@ public class PedidosAdapter extends ArrayAdapter<Pedidos> {
                     intent.putExtra("obs",cursor.getString(5));
                     intent.putExtra("loja",cursor.getString(6));
                     intent.putExtra("editar",1);
+                    intent.putExtra("whats",cursor.getString(9));
                     context.startActivity(intent);
 
 

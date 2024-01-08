@@ -35,6 +35,7 @@ public class Pedido extends AppCompatActivity {
     private EditText edDesconto;
     private EditText edObs;
     private EditText edLoja;
+    private  EditText edWhats;
     private ListView listItem;
 
     private  long newId;
@@ -57,6 +58,7 @@ public class Pedido extends AppCompatActivity {
         edDesconto=(EditText) findViewById(R.id.edDesconto);
         edObs=(EditText) findViewById(R.id.edObs);
         edLoja=findViewById(R.id.edLoja);
+        edWhats=findViewById(R.id.edWhats);
         listItem = findViewById(R.id.listItens);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.lista_quizena, android.R.layout.simple_spinner_item);
@@ -74,7 +76,7 @@ public class Pedido extends AppCompatActivity {
             prazo = Extras.getString("prazo");
             desconto = Extras.getString("desconto");
             obs = Extras.getString("obs");
-            loja = Extras.getString("loja");
+            loja =Extras.getString("loja") ;
             stDesconto = desconto;
 
             edFornecedor.setText(fornecedor);
@@ -90,6 +92,8 @@ public class Pedido extends AppCompatActivity {
             edDesconto.setText(desconto);
             edObs.setText(obs);
             edLoja.setText(loja);
+            edWhats.setText(Extras.getString("whats"));
+
             ListarItens();
         }
         edDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -145,14 +149,14 @@ public class Pedido extends AppCompatActivity {
         try {
             String dataEntrega;
             dataEntrega = "";
-            String sql= "INSERT INTO pedido(fornecedor,data_entrega,prazo_pagto,desconto,obs,loja,transmitido) values(?,?,?,?,?,?,0)";
+            String sql= "INSERT INTO pedido(fornecedor,data_entrega,prazo_pagto,desconto,obs,loja,transmitido,whats_rep) values(?,?,?,?,?,?,0,?)";
             SQLiteStatement stmt = bancoDados.compileStatement(sql);
 
             stmt.bindString(1,edFornecedor.getText().toString());
             if (spQuinzena.getSelectedItem().toString()=="1ª Quinzena" || spQuinzena.getSelectedItem().toString().equals("1ª Quinzena") ) {
-                dataEntrega = "01/"+edDate.getText().toString();
+                dataEntrega = "10/"+edDate.getText().toString();
             } else if (spQuinzena.getSelectedItem().toString()=="2ª Quinzena"|| spQuinzena.getSelectedItem().toString().equals("2ª Quinzena")) {
-                dataEntrega = "16/"+edDate.getText().toString();
+                dataEntrega = "20/"+edDate.getText().toString();
             }
             stmt.bindString(2,dataEntrega);
             stmt.bindString(3,edPrazo.getText().toString());
@@ -160,6 +164,7 @@ public class Pedido extends AppCompatActivity {
 
             stmt.bindString(5,edObs.getText().toString());
             stmt.bindString(6,edLoja.getText().toString());
+            stmt.bindString(7,edWhats.getText().toString());
             newId= stmt.executeInsert();
             codPedido = ""+newId;
             editar = 1;
@@ -174,15 +179,15 @@ public class Pedido extends AppCompatActivity {
         try {
             String dataEntrega;
             dataEntrega = "";
-            String sql= "UPDATE pedido set fornecedor=?,data_entrega=?,prazo_pagto=?,desconto=?,obs=?,loja=?,transmitido=0" +
+            String sql= "UPDATE pedido set fornecedor=?,data_entrega=?,prazo_pagto=?,desconto=?,obs=?,loja=?,transmitido=0, whats_rep =?" +
                     " where cod_pedido = ?";
             SQLiteStatement stmt = bancoDados.compileStatement(sql);
 
             stmt.bindString(1,edFornecedor.getText().toString());
             if (spQuinzena.getSelectedItem().toString()=="1ª Quinzena" || spQuinzena.getSelectedItem().toString().equals("1ª Quinzena") ) {
-                dataEntrega = "01/"+edDate.getText().toString();
+                dataEntrega = "10/"+edDate.getText().toString();
             } else if (spQuinzena.getSelectedItem().toString()=="2ª Quinzena"|| spQuinzena.getSelectedItem().toString().equals("2ª Quinzena")) {
-                dataEntrega = "16/"+edDate.getText().toString();
+                dataEntrega = "20/"+edDate.getText().toString();
             }
             stmt.bindString(2,dataEntrega);
             stmt.bindString(3,edPrazo.getText().toString());
@@ -190,7 +195,8 @@ public class Pedido extends AppCompatActivity {
 
             stmt.bindString(5,edObs.getText().toString());
             stmt.bindString(6,edLoja.getText().toString());
-            stmt.bindString(7,codPedido);
+            stmt.bindString(7,edWhats.getText().toString());
+            stmt.bindString(8,codPedido);
             stmt.executeUpdateDelete();
 
             editar = 1;
@@ -241,7 +247,7 @@ public class Pedido extends AppCompatActivity {
             ItensPedido i;
             while (cursor != null){
 
-                i = new ItensPedido(cursor.getString(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getBlob(10),String.format("%.2f",cursor.getFloat(6)),cursor.getString(7));
+                i = new ItensPedido(cursor.getString(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getBlob(10),String.format("%.2f",cursor.getFloat(6)),cursor.getString(7),cursor.getString(8),cursor.getString(9));
                 itenspedidos.add(i);
                 cursor.moveToNext();
             }

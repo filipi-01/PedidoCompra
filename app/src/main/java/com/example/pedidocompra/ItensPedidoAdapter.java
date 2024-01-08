@@ -45,12 +45,17 @@ public class ItensPedidoAdapter extends ArrayAdapter<ItensPedido> {
         TextView txtVenda = (TextView) rowView.findViewById(R.id.edVendaItem);
         ImageButton btExcluir = (ImageButton) rowView.findViewById(R.id.btExcluirItem);
         ImageView imgFoto = (ImageView) rowView.findViewById(R.id.imgFotoItem);
+        TextView edQtd = (TextView) rowView.findViewById(R.id.edQtdItem);
+        TextView edGrade = (TextView) rowView.findViewById(R.id.edGradeItem);
 
         txtMarca.setText(elementos.get(position).getMarca());
         txtTipo.setText(elementos.get(position).getTipo());
         txtRef.setText(elementos.get(position).getRef());
         txtCusto.setText(elementos.get(position).getCusto());
         txtVenda.setText(elementos.get(position).getVenda());
+        edQtd.setText(elementos.get(position).getQtd());
+        edGrade.setText(elementos.get(position).getGrade());
+
 
        // System.out.println(new String(elementos.get(position).getFoto(), StandardCharsets.UTF_8));
        // Bitmap bmp = BitmapFactory.decodeByteArray(elementos.get(position).getFoto(),0,elementos.get(position).getFoto().length);
