@@ -173,13 +173,13 @@ public class MainActivity extends AppCompatActivity {
               Cursor cursor = null;
            if (cbTodos.isChecked()) {
                 cursor = bancoDados.rawQuery("select p.cod_pedido,p.fornecedor,p.data_entrega,p.transmitido,sum(i.qtd) as pares,count(i.cod_item) as itens," +
-                        "p.loja,sum(i.custo) as custo  from pedido as p " +
+                        "p.loja,sum(i.custo*i.qtd) as custo  from pedido as p " +
                         "left join item_pedido as i on i.cod_pedido = p.cod_pedido where p.fornecedor like ?  " +
                         "group by p.cod_pedido,p.fornecedor,p.data_entrega,p.transmitido,p.loja" +
                        " order by p.cod_pedido desc", new String[]{"%" + fornecedor + "%"});
            }else{
                cursor = bancoDados.rawQuery("select p.cod_pedido,p.fornecedor,p.data_entrega,p.transmitido,sum(i.qtd) as pares,count(i.cod_item) as itens," +
-                       "p.loja,sum(i.custo) as custo  from pedido as p " +
+                       "p.loja,sum(i.custo*i.qtd) as custo  from pedido as p " +
                        " left join item_pedido as i on i.cod_pedido = p.cod_pedido " +
                        "where p.fornecedor like ? and p.transmitido = 0 " +
                        "group by p.cod_pedido,p.fornecedor,p.data_entrega,p.transmitido,p.loja" +

@@ -294,7 +294,7 @@ public class ItemPedido extends AppCompatActivity {
            }
        });
 
-       edLiquido.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+       edCusto.setOnFocusChangeListener(new View.OnFocusChangeListener() {
            @Override
            public void onFocusChange(View view, boolean b) {
                if (!edCusto.getText().toString().equals("")) {

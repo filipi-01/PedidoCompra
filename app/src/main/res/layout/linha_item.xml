@@ -42,23 +42,25 @@
 
             <TextView
                 android:id="@+id/edRefItem"
-                android:layout_width="119dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:text="Ref" />
 
             <TextView
                 android:id="@+id/textView3"
-                android:layout_width="wrap_content"
+                android:layout_width="7dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1"
+                android:gravity="right"
                 android:text="Qtd.:" />
 
             <TextView
                 android:id="@+id/edQtdItem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="0"
                 android:text="Qtd" />
         </LinearLayout>
 
@@ -69,15 +71,15 @@
 
             <TextView
                 android:id="@+id/textView5"
-                android:layout_width="9dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:layout_weight="1"
+                android:layout_weight="0"
                 android:text="Grade:" />
 
             <TextView
                 android:id="@+id/edGradeItem"
-                android:layout_width="115dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Grade" />
@@ -93,26 +95,29 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:layout_weight="1"
+                android:layout_weight="0"
                 android:text="Custo Liq.:" />
 
             <TextView
                 android:id="@+id/edCustoItem"
-                android:layout_width="59dp"
-                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:text="Custo" />
 
             <TextView
                 android:id="@+id/textView9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_marginStart="5dp"
+                android:layout_weight="0"
                 android:text="Venda:" />
 
             <TextView
                 android:id="@+id/edVendaItem"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:text="Venda" />
         </LinearLayout>
     </LinearLayout>

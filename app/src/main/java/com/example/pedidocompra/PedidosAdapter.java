@@ -166,7 +166,7 @@ public class PedidosAdapter extends ArrayAdapter<Pedidos> {
 
                         try {
 
-                            String sql = "INSERT INTO pedido(fornecedor,data_entrega,prazo_pagto,desconto,obs,loja,transmitido) values(?,?,?,?,?,?,0)";
+                            String sql = "INSERT INTO pedido(fornecedor,data_entrega,prazo_pagto,desconto,obs,loja,transmitido,whats_rep) values(?,?,?,?,?,?,0,?)";
                             SQLiteStatement stmt = MainActivity.bancoDados.compileStatement(sql);
 
                             stmt.bindString(1, cursor.getString(1));
@@ -176,6 +176,7 @@ public class PedidosAdapter extends ArrayAdapter<Pedidos> {
 
                             stmt.bindString(5, cursor.getString(5));
                             stmt.bindString(6, cursor.getString(6));
+                            stmt.bindString(7, cursor.getString(9));
                             newId = stmt.executeInsert();
 
 
@@ -223,6 +224,7 @@ public class PedidosAdapter extends ArrayAdapter<Pedidos> {
                         intent.putExtra("obs", cursor.getString(5));
                         intent.putExtra("loja", cursor.getString(6));
                         intent.putExtra("editar", 1);
+                        intent.putExtra("whats", cursor.getString(9));
 
 
                         context.startActivity(intent);
