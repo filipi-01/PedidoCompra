@@ -27,23 +27,24 @@ public class conexao extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conexao);
+        //Amarra componentens do xml na classe
         edIp = findViewById(R.id.edIp);
         edPorta = findViewById(R.id.edPorta);
         edBd = findViewById(R.id.edBd);
         edUsuario = findViewById(R.id.edUsuario);
         edSenha = findViewById(R.id.edSenha);
         spConexao = findViewById(R.id.spConexao);
-        Bundle extras = getIntent().getExtras();
 
+        //puxa informações da tela anterior
+        Bundle extras = getIntent().getExtras();
         edIp.setText(extras.getString("IP"));
         edPorta.setText(extras.getString("Porta"));
         edBd.setText(extras.getString("Bd"));
         edUsuario.setText(extras.getString("Usuario"));
         edSenha.setText(extras.getString("Senha"));
-
-
         Item = extras.getString("item");
 
+        //prepara lista do spinner(combobox)
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.lista_conexao, android.R.layout.simple_spinner_item);
 // Specify the layout to use when the list of choices appears
@@ -51,15 +52,19 @@ public class conexao extends AppCompatActivity {
 
 // Apply the adapter to the spinner
         spConexao.setAdapter(adapter);
-
+        //verificar o que esta selecionado no spinner
         if (extras.getString("item").equals("1")){
+            //conexao local
             spConexao.setSelection(0);
         }else{
+            //conexao externa
             spConexao.setSelection(1);
         }
+        //evento de seleção do spinner
         spConexao.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                //verifica dados da conexao local
                 if (spConexao.getSelectedItem().toString().equals("Local")){
                     Cursor cursor = MainActivity.bancoDados.rawQuery("select * from conexao where item = 1", null);
                     cursor.moveToFirst();
@@ -74,6 +79,7 @@ public class conexao extends AppCompatActivity {
 
                     }
                 }else{
+                //verifica dados da conexao externa
                     Cursor cursor = MainActivity.bancoDados.rawQuery("select * from conexao where item = 2", null);
                     cursor.moveToFirst();
                     if (cursor.getCount() > 0) {
@@ -95,44 +101,13 @@ public class conexao extends AppCompatActivity {
             }
         });
 
-      /*  spConexao.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (spConexao.getSelectedItem().toString().equals("Local")){
-                    Cursor cursor = MainActivity.bancoDados.rawQuery("select * from conexao where item = 1", null);
-                    cursor.moveToFirst();
-                    if (cursor.getCount() > 0) {
-                        edIp.setText(cursor.getString(0));
-                        edPorta.setText( cursor.getString(1));
-                        edBd.setText(cursor.getString(2));
-                        edUsuario.setText(cursor.getString(3));
-                        edSenha.setText(cursor.getString(4));
-                        Item = cursor.getString(5);
-
-
-                    }
-                }else{
-                    Cursor cursor = MainActivity.bancoDados.rawQuery("select * from conexao where item = 2", null);
-                    cursor.moveToFirst();
-                    if (cursor.getCount() > 0) {
-                        edIp.setText(cursor.getString(0));
-                        edPorta.setText( cursor.getString(1));
-                        edBd.setText(cursor.getString(2));
-                        edUsuario.setText(cursor.getString(3));
-                        edSenha.setText(cursor.getString(4));
-                        Item = cursor.getString(5);
-
-
-                    }
-                }
-            }
-        });*/
 
 
 
     }
     public void sincronizarProduto(View view){
         try {
+            //conecta ao banco de dados externo
             SQLConnection conexao = new SQLConnection();
 
             conexao.setIp(edIp.getText().toString());
@@ -142,9 +117,12 @@ public class conexao extends AppCompatActivity {
             conexao.setPassword(edSenha.getText().toString());
 
             Connection conn = conexao.connect();
+
+            //verifica produtos que estao com campo id vazios no banco de dados local
             Cursor cursor = MainActivity.bancoDados.rawQuery("select * from produto where id is null ", null);
             cursor.moveToFirst();
             while(cursor!=null){
+                //busca o id do produto no banco de dados externo e insere no banco local
                 PreparedStatement stProduto;
                 String sqlProduto = "SELECT max(id) id from produto_app where marca= ? and ref = ? and cor = ?  ";
                 stProduto = conn.prepareStatement(sqlProduto);
@@ -175,10 +153,6 @@ public class conexao extends AppCompatActivity {
     public void salvarConexao(View view){
         try{
             String sql;
-
-            /* sql= "delete from conexao";
-            SQLiteStatement stmt = MainActivity.bancoDados.compileStatement(sql);
-            stmt.executeUpdateDelete();*/
 
             sql= "UPDATE conexao set ip=?,port=?,db=?,usuario=?,senha=?,ativo = 1 where item= ?";
             SQLiteStatement stmt = MainActivity.bancoDados.compileStatement(sql);

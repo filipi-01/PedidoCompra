@@ -152,7 +152,7 @@ public class Pedido extends AppCompatActivity {
             String sql= "INSERT INTO pedido(fornecedor,data_entrega,prazo_pagto,desconto,obs,loja,transmitido,whats_rep) values(?,?,?,?,?,?,0,?)";
             SQLiteStatement stmt = bancoDados.compileStatement(sql);
 
-            stmt.bindString(1,edFornecedor.getText().toString());
+            stmt.bindString(1,edFornecedor.getText().toString().trim());
             if (spQuinzena.getSelectedItem().toString()=="1ª Quinzena" || spQuinzena.getSelectedItem().toString().equals("1ª Quinzena") ) {
                 dataEntrega = "10/"+edDate.getText().toString();
             } else if (spQuinzena.getSelectedItem().toString()=="2ª Quinzena"|| spQuinzena.getSelectedItem().toString().equals("2ª Quinzena")) {
@@ -162,7 +162,7 @@ public class Pedido extends AppCompatActivity {
             stmt.bindString(3,edPrazo.getText().toString());
             stmt.bindString(4,edDesconto.getText().toString());
 
-            stmt.bindString(5,edObs.getText().toString());
+            stmt.bindString(5,edObs.getText().toString().trim());
             stmt.bindString(6,edLoja.getText().toString());
             stmt.bindString(7,edWhats.getText().toString());
             newId= stmt.executeInsert();
@@ -183,7 +183,7 @@ public class Pedido extends AppCompatActivity {
                     " where cod_pedido = ?";
             SQLiteStatement stmt = bancoDados.compileStatement(sql);
 
-            stmt.bindString(1,edFornecedor.getText().toString());
+            stmt.bindString(1,edFornecedor.getText().toString().trim());
             if (spQuinzena.getSelectedItem().toString()=="1ª Quinzena" || spQuinzena.getSelectedItem().toString().equals("1ª Quinzena") ) {
                 dataEntrega = "10/"+edDate.getText().toString();
             } else if (spQuinzena.getSelectedItem().toString()=="2ª Quinzena"|| spQuinzena.getSelectedItem().toString().equals("2ª Quinzena")) {
@@ -193,7 +193,7 @@ public class Pedido extends AppCompatActivity {
             stmt.bindString(3,edPrazo.getText().toString());
             stmt.bindString(4,edDesconto.getText().toString());
 
-            stmt.bindString(5,edObs.getText().toString());
+            stmt.bindString(5,edObs.getText().toString().trim());
             stmt.bindString(6,edLoja.getText().toString());
             stmt.bindString(7,edWhats.getText().toString());
             stmt.bindString(8,codPedido);

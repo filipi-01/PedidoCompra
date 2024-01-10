@@ -408,10 +408,10 @@ public class ItemPedido extends AppCompatActivity {
                     String sql = ("INSERT INTO item_pedido (marca,tipo,ref,cor,custo_liq,custo,preco_venda,qtd,grade," +
                             "foto,cod_produto, cod_pedido) values(?,?,?,?,?,?,?,?,?,?,?,?) ");
                     SQLiteStatement stmt = bancoDados.compileStatement(sql);
-                    stmt.bindString(1, edMarca.getText().toString());
-                    stmt.bindString(2, edTipo.getText().toString());
-                    stmt.bindString(3, edRef.getText().toString());
-                    stmt.bindString(4, edCor.getText().toString());
+                    stmt.bindString(1, edMarca.getText().toString().trim());
+                    stmt.bindString(2, edTipo.getText().toString().trim());
+                    stmt.bindString(3, edRef.getText().toString().trim());
+                    stmt.bindString(4, edCor.getText().toString().trim());
                     stmt.bindString(5, edCusto.getText().toString());
                     stmt.bindString(6, edLiquido.getText().toString());
                     stmt.bindString(7, edVenda.getText().toString());
@@ -437,10 +437,10 @@ public class ItemPedido extends AppCompatActivity {
                     String sql = ("UPDATE item_pedido set marca =?,tipo=?,ref=?,cor=?,custo_liq=?,custo=?, preco_venda=?,qtd=?,grade=?," +
                             "foto=?,cod_produto=? where cod_item=?  ");
                     SQLiteStatement stmt = bancoDados.compileStatement(sql);
-                    stmt.bindString(1, edMarca.getText().toString());
-                    stmt.bindString(2, edTipo.getText().toString());
-                    stmt.bindString(3, edRef.getText().toString());
-                    stmt.bindString(4, edCor.getText().toString());
+                    stmt.bindString(1, edMarca.getText().toString().trim());
+                    stmt.bindString(2, edTipo.getText().toString().trim());
+                    stmt.bindString(3, edRef.getText().toString().trim());
+                    stmt.bindString(4, edCor.getText().toString().trim());
                     stmt.bindString(5, edCusto.getText().toString());
                     stmt.bindString(6, edLiquido.getText().toString());
                     stmt.bindString(7, edVenda.getText().toString());

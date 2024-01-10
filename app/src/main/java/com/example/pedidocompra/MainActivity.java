@@ -16,6 +16,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.Manifest;
 
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private Connection conn;
     private String fornecedor = "";
     private CheckBox cbTodos;
+    private TextView txtCon;
 
 
 
@@ -53,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         listPedidos = findViewById(R.id.listPedidos);
         searchView = findViewById(R.id.searchView);
         cbTodos = findViewById(R.id.cbTodos);
+        txtCon = findViewById(R.id.txtCon);
         criarBanco();
         listarDados();
       //  verificaConexao();
@@ -386,6 +389,8 @@ public class MainActivity extends AppCompatActivity {
             conexao = new SQLConnection();
 
 
+            txtCon.setVisibility(View.VISIBLE);
+
             Cursor cursor = bancoDados.rawQuery("select * from conexao where ativo = 1", null);
             cursor.moveToFirst();
             if (cursor.getCount() > 0) {
@@ -437,12 +442,17 @@ public class MainActivity extends AppCompatActivity {
 
                 conn = conexao.connect();
                 if (!conexao.getLOG().equals("")) {
+                    txtCon.setVisibility(View.GONE);
                     throw new Exception("erro ao conectar no banco de dados:");
+
                 }
+            txtCon.setVisibility(View.GONE);
 
         }catch(Exception e){
             e.printStackTrace();
            // Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
+            txtCon.setVisibility(View.GONE);
+
             if (e.getMessage().equals("erro ao conectar no banco de dados:")){
                 Intent intent = new Intent(this,conexao.class);
                 intent.putExtra("IP",Ip);
